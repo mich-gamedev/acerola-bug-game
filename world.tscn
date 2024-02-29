@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://otpft5lf6k2c"]
+
+[ext_resource type="PackedScene" uid="uid://bl7v010vvtb3m" path="res://player.tscn" id="1_035sp"]
+[ext_resource type="PackedScene" uid="uid://dnfasbtrnqdxq" path="res://obj/upgrades/teleporter.tscn" id="2_ud31f"]
+
+[node name="World" type="Node"]
+
+[node name="Player" parent="." instance=ExtResource("1_035sp")]
+position = Vector2(16, 16)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="Teleporter2" parent="." node_paths=PackedStringArray("other_teleporter") instance=ExtResource("2_ud31f")]
+position = Vector2(160, 32)
+other_teleporter = NodePath("../Teleporter")
+
+[node name="Teleporter" parent="." node_paths=PackedStringArray("other_teleporter") instance=ExtResource("2_ud31f")]
+position = Vector2(128, 128)
+other_teleporter = NodePath("../Teleporter2")
