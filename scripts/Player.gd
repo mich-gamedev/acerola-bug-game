@@ -25,27 +25,36 @@ func tween_new_position():
 
 func handle_inputs() -> void:
 	if Input.is_action_just_pressed("move_left") and !left_check.has_overlapping_bodies():
-		anim.play(&"dash")
+		anim.stop()
+		anim.play(&"walk")
 		anim.flip_h = true
 		placer.position += Vector2.LEFT * cell_size
 		PlayerStats.can_teleport = true
 		tween_new_position()
 
 	if Input.is_action_just_pressed("move_right") and !right_check.has_overlapping_bodies():
-		anim.play(&"dash")
+		anim.stop()
+		anim.play(&"walk")
 		anim.flip_h = false
 		placer.position += Vector2.RIGHT * cell_size
 		PlayerStats.can_teleport = true
 		tween_new_position()
 
 	if Input.is_action_just_pressed("move_up") and !up_check.has_overlapping_bodies():
-		anim.play(&"dash")
+		anim.stop()
+		anim.play(&"up")
 		placer.position += Vector2.UP * cell_size
 		PlayerStats.can_teleport = true
 		tween_new_position()
 
 	if Input.is_action_just_pressed("move_down") and !down_check.has_overlapping_bodies():
-		anim.play(&"dash")
+		anim.stop()
+		anim.play(&"down")
 		placer.position += Vector2.DOWN * cell_size
 		PlayerStats.can_teleport = true
 		tween_new_position()
+
+
+func _on_animated_sprite_2d_animation_finished() -> void:
+	if anim.animation == &"walk" or anim.animation == &"down" or anim.animation == &"up":
+		anim.play(&"idle")
