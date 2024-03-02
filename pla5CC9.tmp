@@ -1,8 +1,13 @@
-[gd_scene load_steps=25 format=3 uid="uid://bl7v010vvtb3m"]
+[gd_scene load_steps=27 format=3 uid="uid://bl7v010vvtb3m"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_ip7ai"]
+[ext_resource type="Texture2D" uid="uid://dab1ubmd7iri3" path="res://assets/player/echo.png" id="2_6bg8h"]
 [ext_resource type="Texture2D" uid="uid://m15dqhfr5yak" path="res://player.png" id="2_bksuf"]
 [ext_resource type="Texture2D" uid="uid://bknjsx0lsrpe8" path="res://assets/player/shadow.png" id="3_vi4y8"]
+
+[sub_resource type="Gradient" id="Gradient_sk1xm"]
+offsets = PackedFloat32Array(0.0172414, 1)
+colors = PackedColorArray(0.956863, 0.945098, 0.305882, 1, 0.1128, 0.47, 0.18424, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n5650"]
 atlas = ExtResource("2_bksuf")
@@ -162,23 +167,35 @@ animations = [{
 radius = 5.09902
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7y5d3"]
-size = Vector2(16, 16)
+size = Vector2(32, 32)
 
 [node name="Player" type="Node2D" groups=["player"]]
 y_sort_enabled = true
 script = ExtResource("1_ip7ai")
 
+[node name="GPUParticles2D" type="CPUParticles2D" parent="."]
+z_index = -1
+position = Vector2(5.96046e-08, 9.53674e-07)
+scale = Vector2(1, 1)
+emitting = false
+fixed_fps = 30
+draw_order = 1
+texture = ExtResource("2_6bg8h")
+gravity = Vector2(0, 0)
+angular_velocity_min = 22.0
+angular_velocity_max = 22.0
+color_ramp = SubResource("Gradient_sk1xm")
+
 [node name="Shadow" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.5)
 z_index = -1
-position = Vector2(1, -0.999999)
+position = Vector2(1, 15)
 scale = Vector2(1, 0.937)
 texture = ExtResource("3_vi4y8")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-y_sort_enabled = true
 texture_filter = 1
-position = Vector2(1, -32)
+position = Vector2(1, -16)
 sprite_frames = SubResource("SpriteFrames_ykmvm")
 animation = &"idle"
 autoplay = "idle"
@@ -196,7 +213,6 @@ metadata/_aseprite_wizard_interface_config_ = {
 }
 
 [node name="UpgradeCollider" type="Area2D" parent="." groups=["upgrade_collider"]]
-position = Vector2(0, -16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UpgradeCollider"]
 position = Vector2(0, 16)
@@ -204,7 +220,6 @@ shape = SubResource("CircleShape2D_twoeq")
 
 [node name="Placer" type="Node2D" parent="."]
 top_level = true
-position = Vector2(0, -24)
 
 [node name="LeftCheck" type="Area2D" parent="Placer"]
 
@@ -219,9 +234,9 @@ position = Vector2(32, 0)
 shape = SubResource("RectangleShape2D_7y5d3")
 
 [node name="UpCheck" type="Area2D" parent="Placer"]
-position = Vector2(0, -32)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Placer/UpCheck"]
+position = Vector2(0, -32)
 shape = SubResource("RectangleShape2D_7y5d3")
 
 [node name="DownCheck" type="Area2D" parent="Placer"]

@@ -1,21 +1,109 @@
-[gd_scene load_steps=4 format=3 uid="uid://dnfasbtrnqdxq"]
+[gd_scene load_steps=12 format=3 uid="uid://dnfasbtrnqdxq"]
 
 [ext_resource type="Script" path="res://scripts/teleporter.gd" id="1_1f8px"]
-[ext_resource type="Texture2D" uid="uid://bd41788pxiw7" path="res://icon.svg" id="1_ptbel"]
+[ext_resource type="Texture2D" uid="uid://bakdltbsqjxex" path="res://assets/abberaters/teleporter-sheet.png" id="2_1b4q2"]
+[ext_resource type="Texture2D" uid="uid://clrf8pdgukp1f" path="res://assets/abberaters/shadow.png" id="3_v6fcd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fgkr8"]
 size = Vector2(12, 12)
 
-[node name="Teleporter" type="Area2D" groups=["teleporter"]]
-script = ExtResource("1_1f8px")
+[sub_resource type="AtlasTexture" id="AtlasTexture_bcrwt"]
+atlas = ExtResource("2_1b4q2")
+region = Rect2(0, 0, 22, 32)
 
-[node name="Icon" type="Sprite2D" parent="."]
-position = Vector2(16, 16)
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_ptbel")
+[sub_resource type="AtlasTexture" id="AtlasTexture_sm6uo"]
+atlas = ExtResource("2_1b4q2")
+region = Rect2(22, 0, 22, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ow8mn"]
+atlas = ExtResource("2_1b4q2")
+region = Rect2(44, 0, 22, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c3cm2"]
+atlas = ExtResource("2_1b4q2")
+region = Rect2(66, 0, 22, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_240ju"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bcrwt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sm6uo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ow8mn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c3cm2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="Animation" id="Animation_edcyy"]
+resource_name = "pulse"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(-2, -2, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.8, 0.8), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(-2, -2, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.8, 0.8), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i6cl0"]
+_data = {
+"pulse": SubResource("Animation_edcyy")
+}
+
+[node name="Teleporter" type="Area2D" groups=["teleporter"]]
+z_index = -1
+y_sort_enabled = true
+script = ExtResource("1_1f8px")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(16, 16)
 shape = SubResource("RectangleShape2D_fgkr8")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(16, 5)
+sprite_frames = SubResource("SpriteFrames_240ju")
+autoplay = "default"
+frame_progress = 0.568298
+offset = Vector2(0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_i6cl0")
+}
+autoplay = "pulse"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.5)
+z_index = -1
+position = Vector2(16, 16)
+texture = ExtResource("3_v6fcd")
+offset = Vector2(0, -10)
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
