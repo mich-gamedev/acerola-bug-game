@@ -15,6 +15,7 @@ func _ready() -> void:
 	placer.global_position = global_position 
 
 func _process(_delta: float) -> void:
+	PlayerStats.absolute_position = placer.global_position
 	if PlayerStats.can_move:
 		handle_inputs()
 

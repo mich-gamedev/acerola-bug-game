@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 PlayerStats="*res://scripts/singletons/PlayerStats.gd"
 LevelManager="*res://scripts/singletons/LevelManager.gd"
+AbberationManager="*res://scripts/singletons/AbberationManager.gd"
 
 [display]
 
