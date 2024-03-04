@@ -5,10 +5,10 @@ extends Node2D
 @onready var particles: CPUParticles2D = $CPUParticles2D
 
 func _ready() -> void:
-	await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(0.25).timeout
 	anim.play("default")
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if anim.frame == 5: collision.set_deferred("disabled", false)
 
 func _on_animated_sprite_2d_animation_finished() -> void:

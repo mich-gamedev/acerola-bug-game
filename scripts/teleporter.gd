@@ -9,7 +9,7 @@ func _ready() -> void:
 	super()
 	animation_player.speed_scale = randf_range(0.9, 1.1)
 
-func _player_entered(player_area: Area2D, player: Player):
+func _player_entered(_player_area: Area2D, player: Player):
 	for i in PlayerStats.current_tweens:
 		i.kill()
 	PlayerStats.can_abberate = false

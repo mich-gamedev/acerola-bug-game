@@ -89,6 +89,8 @@ offsets = PackedFloat32Array(0, 0.21659, 0.976959)
 colors = PackedColorArray(1, 1, 1, 1, 0.956863, 0.945098, 0.305882, 1, 0.243137, 0.631373, 0.129412, 1)
 
 [node name="Lava" type="Node2D"]
+z_index = -1
+y_sort_enabled = true
 script = ExtResource("1_1i6g7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
