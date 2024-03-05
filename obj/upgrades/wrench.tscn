@@ -1,0 +1,83 @@
+[gd_scene load_steps=9 format=3 uid="uid://06x15wo1rmfm"]
+
+[ext_resource type="Script" path="res://obj/upgrades/wrench.gd" id="1_06lsm"]
+[ext_resource type="Script" path="res://obj/abberations/hurtbox.gd" id="1_y25tn"]
+[ext_resource type="Texture2D" uid="uid://8dt7rflxsgqc" path="res://assets/abberaters/wrench.png" id="2_dwnr1"]
+
+[sub_resource type="Animation" id="Animation_1n4ui"]
+resource_name = "rotate"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_440gi"]
+_data = {
+"rotate": SubResource("Animation_1n4ui")
+}
+
+[sub_resource type="Animation" id="Animation_xosgi"]
+resource_name = "pop"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(0.366021, -3.36359, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1.2, 1.2), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4itv1"]
+_data = {
+"pop": SubResource("Animation_xosgi")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d6yw2"]
+size = Vector2(18, 12)
+
+[node name="Wrench" type="CharacterBody2D"]
+script = ExtResource("1_06lsm")
+
+[node name="HurtBox" type="Area2D" parent="."]
+script = ExtResource("1_y25tn")
+
+[node name="Sprite2D" type="Sprite2D" parent="HurtBox"]
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("2_dwnr1")
+
+[node name="Rotate" type="AnimationPlayer" parent="HurtBox/Sprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_440gi")
+}
+autoplay = "rotate"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HurtBox/Sprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_4itv1")
+}
+autoplay = "pop"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("RectangleShape2D_d6yw2")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+autostart = true
+
+[connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
+[connection signal="body_entered" from="HurtBox" to="." method="_on_hurt_box_body_entered"]

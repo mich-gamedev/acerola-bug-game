@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://clrf8pdgukp1f" path="res://assets/abberaters/shadow.png" id="3_8w201"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gma17"]
+resource_local_to_scene = true
 shader = ExtResource("2_j4vtx")
 shader_parameter/enabled = true
 shader_parameter/tint = Color(1, 1, 1, 1)

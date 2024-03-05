@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cohlpts7ug4pq"]
+
+[ext_resource type="Script" path="res://Turret.gd" id="1_3a0o0"]
+[ext_resource type="Texture2D" uid="uid://cw5kvqt1leaeb" path="res://assets/abberaters/turret.png" id="2_6wirp"]
+
+[node name="Turret" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_3a0o0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(16, 21)
+texture = ExtResource("2_6wirp")
+offset = Vector2(0, -5)

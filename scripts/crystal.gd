@@ -44,6 +44,7 @@ func _on_up_area_entered(area: Area2D) -> void:
 
 func tween_player():
 	PlayerStats.can_abberate = false
+	player.hit_flash.play(&"hit_flash")
 	var tween = player.create_tween()
 	tween.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
 	tween.tween_property(player, "global_position", player_position, 0.33)

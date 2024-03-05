@@ -7,6 +7,8 @@ class_name Player
 @onready var up_check: Area2D = $Placer/UpCheck
 @onready var down_check: Area2D = $Placer/DownCheck
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
+@onready var death: AnimationPlayer = $DeathAnimator
+@onready var hit_flash: AnimationPlayer = $AnimatedSprite2D/HitFlash
 
 const cell_size = 32
 
@@ -33,6 +35,7 @@ func handle_inputs() -> void:
 		anim.stop()
 		anim.play(&"walk")
 		anim.flip_h = true
+		PlayerStats.last_position = placer.global_position
 		placer.position += Vector2.LEFT * cell_size
 		PlayerStats.player_moved.emit(Vector2.LEFT)
 		PlayerStats.can_abberate = true
@@ -42,6 +45,7 @@ func handle_inputs() -> void:
 		anim.stop()
 		anim.play(&"walk")
 		anim.flip_h = false
+		PlayerStats.last_position = placer.global_position
 		placer.position += Vector2.RIGHT * cell_size
 		PlayerStats.can_abberate = true
 		PlayerStats.player_moved.emit(Vector2.RIGHT)
@@ -50,6 +54,7 @@ func handle_inputs() -> void:
 	if Input.is_action_just_pressed("move_up") and !up_check.has_overlapping_bodies():
 		anim.stop()
 		anim.play(&"up")
+		PlayerStats.last_position = placer.global_position
 		placer.position += Vector2.UP * cell_size
 		PlayerStats.can_abberate = true
 		PlayerStats.player_moved.emit(Vector2.UP)
@@ -58,6 +63,7 @@ func handle_inputs() -> void:
 	if Input.is_action_just_pressed("move_down") and !down_check.has_overlapping_bodies():
 		anim.stop()
 		anim.play(&"down")
+		PlayerStats.last_position = placer.global_position
 		placer.position += Vector2.DOWN * cell_size
 		PlayerStats.can_abberate = true
 		PlayerStats.player_moved.emit(Vector2.DOWN)
@@ -67,3 +73,14 @@ func handle_inputs() -> void:
 func _on_animated_sprite_2d_animation_finished() -> void:
 	if anim.animation == &"walk" or anim.animation == &"down" or anim.animation == &"up":
 		anim.play(&"idle")
+
+
+func _on_death_area_body_entered(_body: Node2D) -> void:
+	death.play(&"death")
+	await death.animation_finished
+	anim.pause()
+	global_position = PlayerStats.last_position
+	placer.global_position = PlayerStats.last_position
+	death.play(&"spawn")
+	await death.animation_finished
+	anim.play(&"idle")

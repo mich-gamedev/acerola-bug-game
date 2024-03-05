@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://otpft5lf6k2c"]
+[gd_scene load_steps=5 format=3 uid="uid://otpft5lf6k2c"]
 
 [ext_resource type="PackedScene" uid="uid://bl7v010vvtb3m" path="res://player.tscn" id="1_035sp"]
 [ext_resource type="TileSet" uid="uid://deu2h6sscdefg" path="res://resources/tilesets/tiles.tres" id="1_xtets"]
 [ext_resource type="PackedScene" uid="uid://dnfasbtrnqdxq" path="res://obj/upgrades/teleporter.tscn" id="2_ud31f"]
 [ext_resource type="PackedScene" uid="uid://b76tehjcctkph" path="res://obj/upgrades/crystal.tscn" id="4_3kmr8"]
-[ext_resource type="PackedScene" uid="uid://bj5xhyf323qkq" path="res://obj/abberations/bomb.tscn" id="5_0s26j"]
 
 [node name="World" type="Node2D"]
 y_sort_enabled = true
@@ -29,7 +28,7 @@ position = Vector2(416, 272)
 other_teleporter = NodePath("../Teleporter")
 
 [node name="Crystal2" parent="." instance=ExtResource("4_3kmr8")]
-position = Vector2(480, 176)
+position = Vector2(480, 144)
 
-[node name="Node2D" parent="." instance=ExtResource("5_0s26j")]
-position = Vector2(192, 240)
+[node name="Crystal3" parent="." instance=ExtResource("4_3kmr8")]
+position = Vector2(544, 208)
